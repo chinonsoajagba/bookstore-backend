@@ -22,16 +22,16 @@ app.use((req, res, next) => {
 
 // Sample book data (COMPLETE LIST - all 10 books)
 const books = [
-  {
-    _id: "1001",
-    title: "Mathematics",
-    description: "A full course work of Advanced Mathematics.",
-    price: 20.00,
-    image: "images/maths1.jpg",
-    availableInventory: 5,
-    icon: "fa-calculator",
-    subject: "Math"
-  },
+{
+  _id: "1001",
+  title: "Mathematics",
+  description: "A full course work of Advanced Mathematics.",
+  price: 20.00,
+  image: "images/maths1.jpg", // Make sure this path is correct
+  availableInventory: 5,
+  icon: "fa-calculator",
+  subject: "Math"
+},
   {
     _id: "1002",
     title: "English",
@@ -202,6 +202,7 @@ app.post('/orders', (req, res) => {
 });
 
 // PUT /books/:id - Update book inventory
+// PUT /books/:id - Update book inventory
 app.put('/books/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -210,6 +211,11 @@ app.put('/books/:id', (req, res) => {
     const bookIndex = books.findIndex(book => book._id === id);
     if (bookIndex === -1) {
       return res.status(404).json({ error: 'Book not found' });
+    }
+    
+    // PREVENT NEGATIVE INVENTORY
+    if (updates.availableInventory !== undefined && updates.availableInventory < 0) {
+      updates.availableInventory = 0;
     }
     
     // Update book
