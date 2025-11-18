@@ -5,8 +5,13 @@ const path = require('path');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Enhanced CORS middleware - allow all origins for now
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Simple logger middleware
