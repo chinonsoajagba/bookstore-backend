@@ -27,7 +27,7 @@ const books = [
   title: "Mathematics",
   description: "A full course work of Advanced Mathematics.",
   price: 20.00,
-  image: "images/maths1.jpg", // Make sure this path is correct
+  image: "images/Maths1.jpg", // Make sure this path is correct
   availableInventory: 5,
   icon: "fa-calculator",
   subject: "Math"
