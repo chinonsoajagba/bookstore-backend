@@ -1,0 +1,97 @@
+BEGIN:VCALENDAR
+METHOD:REQUEST
+PRODID:Microsoft Exchange Server 2010
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:GMT Standard Time
+BEGIN:STANDARD
+DTSTART:16010101T020000
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=-1SU;BYMONTH=10
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:16010101T010000
+TZOFFSETFROM:+0000
+TZOFFSETTO:+0100
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=-1SU;BYMONTH=3
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+ORGANIZER;CN=Fanny Guillemot:mailto:F.Guillemot@mdx.ac.uk
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=daureen192
+ 0@outlook.com:mailto:daureen1920@outlook.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=jesseoluwa
+ pelumi01@gmail.com:mailto:jesseoluwapelumi01@gmail.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=preciouson
+ yechere3@gmail.com:mailto:preciousonyechere3@gmail.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=akuwudikec
+ hidimma@gmail.com:mailto:akuwudikechidimma@gmail.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=dajagba@gm
+ ail.com:mailto:dajagba@gmail.com
+DESCRIPTION;LANGUAGE=en-US:Hi there\,\n\nThank you again for submitting you
+ r application for the role of International Student Ambassador. I am pleas
+ ed to say we would like to invite you to an interview next week.\n\nDue to
+  the high volumes of applications\, we have decided to conduct group inter
+ views.\n\nThe interview will last about 45 minutes and will consist of a s
+ hort series of questions to find out a bit more about your experience at M
+ iddlesex\, and your interest in this role.\n\nPlease RSVP to this invite i
+ f you are available and otherwise let me know asap so we can organise an a
+ lternative time.\n\nKind regards\,\nFanny\n\n_____________________________
+ ___________________________________________________\nMicrosoft Teams Need 
+ help?<https://aka.ms/JoinTeamsMeeting?omkt=en-US>\nJoin the meeting now<ht
+ tps://teams.microsoft.com/l/meetup-join/19%3ameeting_NTk5NzU3NjEtMzFhZC00M
+ Dk2LTlhOGYtNDBjZjNkZTkxNDkx%40thread.v2/0?context=%7b%22Tid%22%3a%2238e37b
+ 88-a3a1-48cf-9f05-6537427fed24%22%2c%22Oid%22%3a%22613b48db-372f-4fb9-a2eb
+ -7d2c14180e94%22%7d>\nMeeting ID: 396 918 773 330\nPasscode: br9qD3fd\n___
+ _____________________________\nFor organizers: Meeting options<https://tea
+ ms.microsoft.com/meetingOptions/?organizerId=613b48db-372f-4fb9-a2eb-7d2c1
+ 4180e94&tenantId=38e37b88-a3a1-48cf-9f05-6537427fed24&threadId=19_meeting_
+ NTk5NzU3NjEtMzFhZC00MDk2LTlhOGYtNDBjZjNkZTkxNDkx@thread.v2&messageId=0&lan
+ guage=en-US>\n____________________________________________________________
+ ____________________\n\n
+UID:040000008200E00074C5B7101A82E00800000000307B2A6DCC44DC01000000000000000
+ 010000000B1C640ACC2C72349A0B773466389F5D8
+SUMMARY;LANGUAGE=en-US:Invite to group interview for International Ambassad
+ or role
+DTSTART;TZID=GMT Standard Time:20251030T160000
+DTEND;TZID=GMT Standard Time:20251030T170000
+CLASS:PUBLIC
+PRIORITY:5
+DTSTAMP:20251024T085721Z
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+SEQUENCE:0
+LOCATION;LANGUAGE=en-US:Microsoft Teams Meeting
+X-MICROSOFT-CDO-APPT-SEQUENCE:0
+X-MICROSOFT-CDO-OWNERAPPTID:1991813097
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:0
+X-MICROSOFT-SKYPETEAMSMEETINGURL:https://teams.microsoft.com/l/meetup-join/
+ 19%3ameeting_NTk5NzU3NjEtMzFhZC00MDk2LTlhOGYtNDBjZjNkZTkxNDkx%40thread.v2/
+ 0?context=%7b%22Tid%22%3a%2238e37b88-a3a1-48cf-9f05-6537427fed24%22%2c%22O
+ id%22%3a%22613b48db-372f-4fb9-a2eb-7d2c14180e94%22%7d
+X-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https://api.scheduler.teams.microsof
+ t.com/teams/38e37b88-a3a1-48cf-9f05-6537427fed24/613b48db-372f-4fb9-a2eb-7
+ d2c14180e94/19_meeting_NTk5NzU3NjEtMzFhZC00MDk2LTlhOGYtNDBjZjNkZTkxNDkx@th
+ read.v2/0
+X-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:meeting_NTk5NzU3NjEtMzFhZC00MDk
+ 2LTlhOGYtNDBjZjNkZTkxNDkx@thread.v2"\,"private":true\,"type":0\,"mid":0\,"
+ rid":0\,"uid":null}
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-REQUESTEDATTENDANCEMODE:DEFAULT
+X-MICROSOFT-ISRESPONSEREQUESTED:TRUE
+X-MICROSOFT-LOCATIONS:[ { "DisplayName" : "Microsoft Teams Meeting"\, "Loca
+ tionAnnotation" : ""\, "LocationSource" : 0\, "Unresolved" : false\, "Loca
+ tionUri" : "" } ]
+BEGIN:VALARM
+DESCRIPTION:REMINDER
+TRIGGER;RELATED=START:-PT15M
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
