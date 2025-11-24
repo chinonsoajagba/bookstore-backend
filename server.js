@@ -20,8 +20,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Sample book data (COMPLETE LIST - all 10 books)
-const books = [
+// Sample lesson data (COMPLETE LIST - all 10 lessons)
+const lessons = [
 {
   _id: "1001",
   title: "Mathematics",
@@ -130,35 +130,35 @@ let orders = [];
 // Basic routes
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'Bookstore API is running! (Using local data)',
+    message: 'Lessons API is running! (Using local data)',
     endpoints: {
-      books: '/books',
-      search: '/books/search?q=query',
+      lessons: '/lessons',
+      search: '/lessons/search?q=query',
       orders: '/orders'
     }
   });
 });
 
-// GET /books - Get all books
-app.get('/books', (req, res) => {
-  console.log('Returning', books.length, 'books');
-  res.json(books);
+// GET /lessons - Get all lessons
+app.get('/lessons', (req, res) => {
+  console.log('Returning', lessons.length, 'lessons');
+  res.json(lessons);
 });
 
-// GET /books/search - Search books
-app.get('/books/search', (req, res) => {
+// GET /lessons/search - Search lessons
+app.get('/lessons/search', (req, res) => {
   try {
     const { q } = req.query;
     if (!q) {
       return res.status(400).json({ error: 'Search query required' });
     }
     
-    const filteredBooks = books.filter(book => 
-      book.title.toLowerCase().includes(q.toLowerCase()) ||
-      book.description.toLowerCase().includes(q.toLowerCase())
+    const filteredLessons = lessons.filter(lesson => 
+      lesson.title.toLowerCase().includes(q.toLowerCase()) ||
+      lesson.description.toLowerCase().includes(q.toLowerCase())
     );
     
-    res.json(filteredBooks);
+    res.json(filteredLessons);
   } catch (error) {
     res.status(500).json({ error: 'Search failed' });
   }
@@ -167,10 +167,10 @@ app.get('/books/search', (req, res) => {
 // POST /orders - Create new order
 app.post('/orders', (req, res) => {
   try {
-    const { name, phone, bookIDs, quantities, total } = req.body;
+    const { name, phone, lessonIDs, quantities, total } = req.body;
     
     // Validate required fields
-    if (!name || !phone || !bookIDs || !quantities || !total) {
+    if (!name || !phone || !lessonIDs || !quantities || !total) {
       return res.status(400).json({ error: 'All fields are required' });
     }
     
@@ -179,7 +179,7 @@ app.post('/orders', (req, res) => {
       _id: Date.now().toString(),
       name,
       phone,
-      bookIDs,
+      lessonIDs,
       quantities,
       total,
       createdAt: new Date()
@@ -187,11 +187,11 @@ app.post('/orders', (req, res) => {
     
     orders.push(order);
     
-    // Update book inventory
-    bookIDs.forEach((bookId, index) => {
-      const book = books.find(b => b._id === bookId.toString());
-      if (book) {
-        book.availableInventory -= quantities[index] || 1;
+    // Update lesson inventory
+    lessonIDs.forEach((lessonId, index) => {
+      const lesson = lessons.find(l => l._id === lessonId.toString());
+      if (lesson) {
+        lesson.availableInventory -= quantities[index] || 1;
       }
     });
     
@@ -201,16 +201,15 @@ app.post('/orders', (req, res) => {
   }
 });
 
-// PUT /books/:id - Update book inventory
-// PUT /books/:id - Update book inventory
-app.put('/books/:id', (req, res) => {
+// PUT /lessons/:id - Update lesson inventory
+app.put('/lessons/:id', (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
     
-    const bookIndex = books.findIndex(book => book._id === id);
-    if (bookIndex === -1) {
-      return res.status(404).json({ error: 'Book not found' });
+    const lessonIndex = lessons.findIndex(lesson => lesson._id === id);
+    if (lessonIndex === -1) {
+      return res.status(404).json({ error: 'Lesson not found' });
     }
     
     // PREVENT NEGATIVE INVENTORY
@@ -218,12 +217,12 @@ app.put('/books/:id', (req, res) => {
       updates.availableInventory = 0;
     }
     
-    // Update book
-    books[bookIndex] = { ...books[bookIndex], ...updates };
+    // Update lesson
+    lessons[lessonIndex] = { ...lessons[lessonIndex], ...updates };
     
-    res.json(books[bookIndex]);
+    res.json(lessons[lessonIndex]);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update book' });
+    res.status(500).json({ error: 'Failed to update lesson' });
   }
 });
 
@@ -238,10 +237,10 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT} (Using local data)`);
   console.log('Available endpoints:');
   console.log('  GET  /');
-  console.log('  GET  /books');
-  console.log('  GET  /books/search?q=query');
+  console.log('  GET  /lessons');
+  console.log('  GET  /lessons/search?q=query');
   console.log('  POST /orders');
-  console.log('  PUT  /books/:id');
+  console.log('  PUT  /lessons/:id');
   console.log('  GET  /orders (for testing)');
-  console.log('Total books in database:', books.length);
+  console.log('Total lessons in database:', lessons.length);
 });
