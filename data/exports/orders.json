@@ -1,0 +1,14 @@
+[
+    {
+        "_id": "6929dbd704624d61b9cf6aca",
+        "name": "John Doe",
+        "phone": "1234567890",
+        "lessonIDs": [
+            "6929db97b7f7690e4ac028e8"
+        ],
+        "numSpaces": [
+            1
+        ],
+        "timestamp": "2025-11-28T17:28:55.997Z"
+    }
+]

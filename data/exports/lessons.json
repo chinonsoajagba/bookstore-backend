@@ -1,0 +1,92 @@
+[
+    {
+        "_id": "6929db97b7f7690e4ac028e8",
+        "subject": "Mathematics",
+        "location": "London",
+        "price": 20,
+        "spaces": 5,
+        "image": "Maths1.jpg",
+        "icon": "fa-calculator"
+    },
+    {
+        "_id": "6929db97b7f7690e4ac028e9",
+        "subject": "English",
+        "location": "Manchester",
+        "price": 10,
+        "spaces": 5,
+        "image": "english2.jpg",
+        "icon": "fa-book"
+    },
+    {
+        "_id": "6929db97b7f7690e4ac028ea",
+        "subject": "Computer Science",
+        "location": "Birmingham",
+        "price": 8,
+        "spaces": 5,
+        "image": "computer.jpg",
+        "icon": "fa-laptop-code"
+    },
+    {
+        "_id": "6929db97b7f7690e4ac028eb",
+        "subject": "International Relations",
+        "location": "Oxford",
+        "price": 6,
+        "spaces": 5,
+        "image": "inter-rel.jpg",
+        "icon": "fa-globe"
+    },
+    {
+        "_id": "6929db97b7f7690e4ac028ec",
+        "subject": "Commerce",
+        "location": "Cambridge",
+        "price": 5.5,
+        "spaces": 12,
+        "image": "commerce.jpg",
+        "icon": "fa-chart-line"
+    },
+    {
+        "_id": "6929db97b7f7690e4ac028ed",
+        "subject": "Medicine",
+        "location": "Edinburgh",
+        "price": 12,
+        "spaces": 5,
+        "image": "medicine.jpg",
+        "icon": "fa-stethoscope"
+    },
+    {
+        "_id": "6929db97b7f7690e4ac028ee",
+        "subject": "Engineering",
+        "location": "Glasgow",
+        "price": 15,
+        "spaces": 5,
+        "image": "engineering.jpg",
+        "icon": "fa-gears"
+    },
+    {
+        "_id": "6929db97b7f7690e4ac028ef",
+        "subject": "Law",
+        "location": "Bristol",
+        "price": 9,
+        "spaces": 5,
+        "image": "law.jpg",
+        "icon": "fa-gavel"
+    },
+    {
+        "_id": "6929db97b7f7690e4ac028f0",
+        "subject": "Mystical Arts",
+        "location": "Hogwarts",
+        "price": 25,
+        "spaces": 5,
+        "image": "magic.jpg",
+        "icon": "fa-wand-magic-sparkles"
+    },
+    {
+        "_id": "6929db97b7f7690e4ac028f1",
+        "subject": "Physics",
+        "location": "Leeds",
+        "price": 18,
+        "spaces": 8,
+        "image": "physics.jpg",
+        "icon": "fa-atom"
+    }
+]
