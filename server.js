@@ -1,246 +1,230 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
+const { ObjectId } = require('mongodb');
+const { connectToDatabase, getDb } = require('./db');
+const logger = require('./middleware/logger');
+const staticImage = require('./middleware/staticFiles');
 
 const app = express();
 
-// Enhanced CORS middleware - allow all origins for now
+// CORS middleware - allow all origins
 app.use(cors({
-  origin: '*', // Allow all origins
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 
-// Simple logger middleware
-app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-  next();
-});
+// Custom middleware
+app.use(logger);
+app.use(staticImage);
 
-// Sample lesson data (COMPLETE LIST - all 10 lessons)
-const lessons = [
-{
-  _id: "1001",
-  title: "Mathematics",
-  description: "A full course work of Advanced Mathematics.",
-  price: 20.00,
-  image: "images/Maths1.jpg", // Make sure this path is correct
-  availableInventory: 5,
-  icon: "fa-calculator",
-  subject: "Math"
-},
-  {
-    _id: "1002",
-    title: "English",
-    description: "Advanced Level English.",
-    price: 10.00,
-    image: "images/english2.jpg",
-    availableInventory: 5,
-    icon: "fa-book",
-    subject: "English"
-  },
-  {
-    _id: "1003",
-    title: "Computer Science",
-    description: "Intro to Computer Science.",
-    price: 8.00,
-    image: "images/computer.jpg",
-    availableInventory: 5,
-    icon: "fa-laptop-code",
-    subject: "Computer Science"
-  },
-  {
-    _id: "1004",
-    title: "International Relations",
-    description: "A full study guide on the intro to International Relations.",
-    price: 6.00,
-    image: "images/inter-rel.jpg",
-    availableInventory: 5,
-    icon: "fa-globe",
-    subject: "Politics"
-  },
-  {
-    _id: "1005",
-    title: "Commerce",
-    description: "A full study guide to your future of Commerce.",
-    price: 5.50,
-    image: "images/commerce.jpg",
-    availableInventory: 12,
-    icon: "fa-chart-line",
-    subject: "Business"
-  },
-  {
-    _id: "1006",
-    title: "Medicine",
-    description: "Beginner to Advanced level courses.",
-    price: 12.00,
-    image: "images/medicine.jpg",
-    availableInventory: 5,
-    icon: "fa-stethoscope",
-    subject: "Science"
-  },
-  {
-    _id: "1007",
-    title: "Engineering",
-    description: "Advanced Engineering courses.",
-    price: 15.00,
-    image: "images/engineering.jpg",
-    availableInventory: 5,
-    icon: "fa-gears",
-    subject: "Engineering"
-  },
-  {
-    _id: "1008",
-    title: "Law",
-    description: "Brand Law.",
-    price: 9.00,
-    image: "images/law.jpg",
-    availableInventory: 5,
-    icon: "fa-gavel",
-    subject: "Law"
-  },
-  {
-    _id: "1009",
-    title: "Dark Magic",
-    description: "Shadow Wizard Money Gang.",
-    price: 25.00,
-    image: "images/magic.jpg",
-    availableInventory: 5,
-    icon: "fa-wand-magic-sparkles",
-    subject: "Mystical Arts"
-  },
-  {
-    _id: "1010",
-    title: "Physics",
-    description: "Fundamental principles of Physics.",
-    price: 18.00,
-    image: "images/physics.jpg",
-    availableInventory: 8,
-    icon: "fa-atom",
-    subject: "Science"
-  }
-];
-
-// Store orders in memory (for demo purposes)
-let orders = [];
-
-// Basic routes
+// Root endpoint
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'Lessons API is running! (Using local data)',
+    message: 'Lessons API is running!',
+    database: 'MongoDB Atlas',
     endpoints: {
       lessons: '/lessons',
-      search: '/lessons/search?q=query',
-      orders: '/orders'
+      lessonById: '/lessons/:id',
+      search: '/search?q=query',
+      orders: '/orders',
+      images: '/images/:filename'
     }
   });
 });
 
 // GET /lessons - Get all lessons
-app.get('/lessons', (req, res) => {
-  console.log('Returning', lessons.length, 'lessons');
-  res.json(lessons);
+app.get('/lessons', async (req, res) => {
+  try {
+    const db = getDb();
+    const lessons = await db.collection('lessons').find({}).toArray();
+    res.json(lessons);
+  } catch (error) {
+    console.error('Error fetching lessons:', error);
+    res.status(500).json({ error: 'Failed to fetch lessons' });
+  }
 });
 
-// GET /lessons/search - Search lessons
-app.get('/lessons/search', (req, res) => {
+// GET /lessons/:id - Get single lesson by ID
+app.get('/lessons/:id', async (req, res) => {
   try {
+    const db = getDb();
+    const { id } = req.params;
+    
+    let query;
+    // Try to parse as ObjectId, fallback to string match
+    try {
+      query = { _id: new ObjectId(id) };
+    } catch {
+      query = { _id: id };
+    }
+    
+    const lesson = await db.collection('lessons').findOne(query);
+    
+    if (!lesson) {
+      return res.status(404).json({ error: 'Lesson not found' });
+    }
+    
+    res.json(lesson);
+  } catch (error) {
+    console.error('Error fetching lesson:', error);
+    res.status(500).json({ error: 'Failed to fetch lesson' });
+  }
+});
+
+// PUT /lessons/:id - Update any attribute of a lesson
+app.put('/lessons/:id', async (req, res) => {
+  try {
+    const db = getDb();
+    const { id } = req.params;
+    const updates = req.body;
+    
+    // Prevent negative spaces
+    if (updates.spaces !== undefined && updates.spaces < 0) {
+      updates.spaces = 0;
+    }
+    
+    let query;
+    try {
+      query = { _id: new ObjectId(id) };
+    } catch {
+      query = { _id: id };
+    }
+    
+    const result = await db.collection('lessons').findOneAndUpdate(
+      query,
+      { $set: updates },
+      { returnDocument: 'after' }
+    );
+    
+    if (!result) {
+      return res.status(404).json({ error: 'Lesson not found' });
+    }
+    
+    res.json(result);
+  } catch (error) {
+    console.error('Error updating lesson:', error);
+    res.status(500).json({ error: 'Failed to update lesson' });
+  }
+});
+
+// GET /search - Server-side search across subject, location, price, spaces
+app.get('/search', async (req, res) => {
+  try {
+    const db = getDb();
     const { q } = req.query;
+    
     if (!q) {
       return res.status(400).json({ error: 'Search query required' });
     }
     
-    const filteredLessons = lessons.filter(lesson => 
-      lesson.title.toLowerCase().includes(q.toLowerCase()) ||
-      lesson.description.toLowerCase().includes(q.toLowerCase())
-    );
+    // Case-insensitive regex search across multiple fields
+    const searchRegex = { $regex: q, $options: 'i' };
     
-    res.json(filteredLessons);
+    // Try to parse as number for price/spaces search
+    const numericValue = parseFloat(q);
+    const isNumeric = !isNaN(numericValue);
+    
+    let searchQuery;
+    if (isNumeric) {
+      searchQuery = {
+        $or: [
+          { subject: searchRegex },
+          { location: searchRegex },
+          { price: numericValue },
+          { spaces: numericValue }
+        ]
+      };
+    } else {
+      searchQuery = {
+        $or: [
+          { subject: searchRegex },
+          { location: searchRegex }
+        ]
+      };
+    }
+    
+    const lessons = await db.collection('lessons').find(searchQuery).toArray();
+    res.json(lessons);
   } catch (error) {
+    console.error('Error searching lessons:', error);
     res.status(500).json({ error: 'Search failed' });
   }
 });
 
 // POST /orders - Create new order
-app.post('/orders', (req, res) => {
+app.post('/orders', async (req, res) => {
   try {
-    const { name, phone, lessonIDs, quantities, total } = req.body;
+    const db = getDb();
+    const { name, phone, lessonIDs, numSpaces } = req.body;
     
     // Validate required fields
-    if (!name || !phone || !lessonIDs || !quantities || !total) {
-      return res.status(400).json({ error: 'All fields are required' });
+    if (!name || !phone || !lessonIDs || !numSpaces) {
+      return res.status(400).json({ 
+        error: 'All fields are required: name, phone, lessonIDs, numSpaces' 
+      });
     }
     
-    // Create new order
+    // Create new order document
     const order = {
-      _id: Date.now().toString(),
       name,
       phone,
       lessonIDs,
-      quantities,
-      total,
-      createdAt: new Date()
+      numSpaces,
+      timestamp: new Date()
     };
     
-    orders.push(order);
+    const result = await db.collection('orders').insertOne(order);
     
-    // Update lesson inventory
-    lessonIDs.forEach((lessonId, index) => {
-      const lesson = lessons.find(l => l._id === lessonId.toString());
-      if (lesson) {
-        lesson.availableInventory -= quantities[index] || 1;
-      }
+    res.status(201).json({ 
+      ...order, 
+      _id: result.insertedId 
     });
-    
-    res.status(201).json(order);
   } catch (error) {
+    console.error('Error creating order:', error);
     res.status(500).json({ error: 'Failed to create order' });
   }
 });
 
-// PUT /lessons/:id - Update lesson inventory
-app.put('/lessons/:id', (req, res) => {
+// GET /orders - Get all orders (for testing/export)
+app.get('/orders', async (req, res) => {
   try {
-    const { id } = req.params;
-    const updates = req.body;
-    
-    const lessonIndex = lessons.findIndex(lesson => lesson._id === id);
-    if (lessonIndex === -1) {
-      return res.status(404).json({ error: 'Lesson not found' });
-    }
-    
-    // PREVENT NEGATIVE INVENTORY
-    if (updates.availableInventory !== undefined && updates.availableInventory < 0) {
-      updates.availableInventory = 0;
-    }
-    
-    // Update lesson
-    lessons[lessonIndex] = { ...lessons[lessonIndex], ...updates };
-    
-    res.json(lessons[lessonIndex]);
+    const db = getDb();
+    const orders = await db.collection('orders').find({}).toArray();
+    res.json(orders);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update lesson' });
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ error: 'Failed to fetch orders' });
   }
 });
 
-// GET /orders - Get all orders (for testing)
-app.get('/orders', (req, res) => {
-  res.json(orders);
-});
-
-// Start server
+// Start server with database connection
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} (Using local data)`);
-  console.log('Available endpoints:');
-  console.log('  GET  /');
-  console.log('  GET  /lessons');
-  console.log('  GET  /lessons/search?q=query');
-  console.log('  POST /orders');
-  console.log('  PUT  /lessons/:id');
-  console.log('  GET  /orders (for testing)');
-  console.log('Total lessons in database:', lessons.length);
-});
+
+async function startServer() {
+  try {
+    await connectToDatabase();
+    
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+      console.log('Connected to MongoDB Atlas');
+      console.log('Available endpoints:');
+      console.log('  GET  /');
+      console.log('  GET  /lessons');
+      console.log('  GET  /lessons/:id');
+      console.log('  PUT  /lessons/:id');
+      console.log('  GET  /search?q=query');
+      console.log('  POST /orders');
+      console.log('  GET  /orders');
+      console.log('  GET  /images/:filename');
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
