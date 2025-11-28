@@ -1,3 +1,4 @@
+49da44c - feat: add prepare_zip.sh, commits history, and image sources (2025-11-28 18:38:16 +0100)
 14a581d - chore: remove .env from tracking (should be in .gitignore) (2025-11-28 18:36:12 +0100)
 1a454c1 - chore: clean up unused image files (2025-11-28 18:36:03 +0100)
 f5ae8db - refactor: remove mongoose models and old route files (2025-11-28 18:35:56 +0100)
