@@ -1,0 +1,82 @@
+[
+  {
+    "subject": "Mathematics",
+    "location": "London",
+    "price": 20.00,
+    "spaces": 5,
+    "image": "Maths1.jpg",
+    "icon": "fa-calculator"
+  },
+  {
+    "subject": "English",
+    "location": "Manchester",
+    "price": 10.00,
+    "spaces": 5,
+    "image": "english2.jpg",
+    "icon": "fa-book"
+  },
+  {
+    "subject": "Computer Science",
+    "location": "Birmingham",
+    "price": 8.00,
+    "spaces": 5,
+    "image": "computer.jpg",
+    "icon": "fa-laptop-code"
+  },
+  {
+    "subject": "International Relations",
+    "location": "Oxford",
+    "price": 6.00,
+    "spaces": 5,
+    "image": "inter-rel.jpg",
+    "icon": "fa-globe"
+  },
+  {
+    "subject": "Commerce",
+    "location": "Cambridge",
+    "price": 5.50,
+    "spaces": 12,
+    "image": "commerce.jpg",
+    "icon": "fa-chart-line"
+  },
+  {
+    "subject": "Medicine",
+    "location": "Edinburgh",
+    "price": 12.00,
+    "spaces": 5,
+    "image": "medicine.jpg",
+    "icon": "fa-stethoscope"
+  },
+  {
+    "subject": "Engineering",
+    "location": "Glasgow",
+    "price": 15.00,
+    "spaces": 5,
+    "image": "engineering.jpg",
+    "icon": "fa-gears"
+  },
+  {
+    "subject": "Law",
+    "location": "Bristol",
+    "price": 9.00,
+    "spaces": 5,
+    "image": "law.jpg",
+    "icon": "fa-gavel"
+  },
+  {
+    "subject": "Mystical Arts",
+    "location": "Hogwarts",
+    "price": 25.00,
+    "spaces": 5,
+    "image": "magic.jpg",
+    "icon": "fa-wand-magic-sparkles"
+  },
+  {
+    "subject": "Physics",
+    "location": "Leeds",
+    "price": 18.00,
+    "spaces": 8,
+    "image": "physics.jpg",
+    "icon": "fa-atom"
+  }
+]
